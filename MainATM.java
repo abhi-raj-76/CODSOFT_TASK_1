@@ -16,9 +16,10 @@ class Bank
         }
         return -1.0;
     }
-    public void Deposit(double amount)
+    public double Deposit(double amount)
     {
         this.amount += amount;
+        return this.amount;
     }
     public double Balance(){return this.amount;}
 }
@@ -43,7 +44,7 @@ class User
         {return true;}
         return false;
     }
-    public void setPin(int pin){this.pin = pin;}
+    public void setPin(int pin){this.pin = pin;System.err.println("PIN updated");}
     public String getName()
     {return name;}
     public void getAmountFromUser(Scanner sc)
@@ -65,7 +66,7 @@ class User
                 break;
             case 2:
                 getAmountFromUser(sc);
-                b1.Deposit(this.amount);
+                this.bal = b1.Deposit(this.amount);
                 System.err.println("Your Current Balance after Depositing "+this.bal);
                 break;
             case 3:
@@ -78,15 +79,18 @@ class User
 }
 public class MainATM
 {
+    static int pin;
+    static int limit = 2;
+    public static void getPin(Scanner sc)
+    { 
+        System.out.println("----------CODSOFT ATM----------");
+        System.out.println("Enter your PIN:");
+        pin = sc.nextInt();
+    }
     public static void main(String[] args)
     {
-        int pin;
-
         Scanner sc = new Scanner(System.in);
-
-        System.out.println("----------CODSOFT ATM----------");
-        System.out.println("        Enter your PIN:");
-        pin = sc.nextInt();
+        getPin(sc);
         User u1 = new User();
         boolean validPin = u1.isPinCorrect(pin);
         if(validPin == true)
@@ -100,7 +104,7 @@ public class MainATM
                 System.out.println("        4: Change PIN");
                 System.out.println("        5: Exit");
                 int choice = sc.nextInt();
-                if(choice!= 5){u1.connectBank(choice,sc);}
+                if(choice!= 5 && choice!= 4){u1.connectBank(choice,sc);}
                 else if(choice == 4)
                 {
                     System.out.print("Enter your new PIN: ");
@@ -110,6 +114,13 @@ public class MainATM
                 else{System.exit(-1);}
             }
         }
+        else if(limit != 0)
+        {
+            System.err.println("PIN incorrect,Only "+limit+" attempts Remaining, Try again!!!");
+            limit--;
+            main(args);
+        }
+        else System.exit(-1);
         sc.close();
     }
 }
