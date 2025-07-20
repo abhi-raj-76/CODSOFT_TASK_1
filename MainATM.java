@@ -7,24 +7,35 @@ class Bank
     {
         this.amount = 5000;
     }
-    public void Withdraw()
+    public double Withdraw(double amount)
     {
-
+        if(this.amount <= amount)
+        {
+            this.amount -= amount;
+            return this.amount;
+        }
+        return -1;
     }
-    public void Deposit(){}
-    public void Balance(){}
+    public void Deposit(double amount)
+    {
+        this.amount += amount;
+    }
+    public double Balance(){return this.amount;}
 }
 class User
 {
 
     private int pin;
     private String name;
+    private double amount;
+    private double bal;
 
     public User()
     {
         this.pin = 1010;
         this.name = "raj";
     }
+    public User(int pin){this.pin = pin;}
 
     boolean isPinCorrect(int pin)
     {
@@ -32,32 +43,42 @@ class User
         {return true;}
         return false;
     }
+    public void setPin(int pin){this.pin = pin;}
     public String getName()
     {return name;}
+    public void getAmountFromUser(Scanner sc)
+    {
+        System.err.print("Enter your amount: ");
+        this.amount = sc.nextDouble();
+        return;
+    }
     public void connectBank(int choice,Scanner sc)
     {
         Bank b1 = new Bank();
         switch (choice) 
         {
             case 1:
-                System.err.println("Enter your amount: ");
-                b1.Withdraw();   
+                getAmountFromUser(sc);
+                this.bal = b1.Withdraw(this.amount);
+                if(this.bal == -1){System.err.println("Insufficient Balance:");}   
                 break;
             case 2:
-                b1.Deposit();
+                getAmountFromUser(sc);
+                b1.Deposit(this.amount);
                 break;
             case 3:
-                b1.Balance();
+                this.bal = b1.Balance();
+                System.err.println("Your current Balance: "+this.bal);
                 break;
         }
-                    
+        return;             
     }
 }
 public class MainATM
 {
     public static void main(String[] args)
     {
-        final int pin;
+        int pin;
 
         Scanner sc = new Scanner(System.in);
 
@@ -80,7 +101,9 @@ public class MainATM
                 if(choice!= 5){u1.connectBank(choice,sc);}
                 else if(choice == 4)
                 {
-
+                    System.out.print("Enter your new PIN: ");
+                    pin = sc.nextInt();
+                    u1.setPin(pin);
                 }
                 else{System.exit(-1);}
             }
