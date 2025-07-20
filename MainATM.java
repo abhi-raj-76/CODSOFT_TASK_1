@@ -30,11 +30,13 @@ class User
     private String name;
     private double amount;
     private double bal;
+    Bank b1;
 
     public User()
     {
         this.pin = 1010;
         this.name = "raj";
+        b1 = new Bank();
     }
     public User(int pin){this.pin = pin;}
 
@@ -53,9 +55,8 @@ class User
         this.amount = sc.nextDouble();
         return;
     }
-    public void connectBank(int choice,Scanner sc)
+    public double connectBank(int choice,Scanner sc)
     {
-        Bank b1 = new Bank();
         switch (choice) 
         {
             case 1:
@@ -74,7 +75,7 @@ class User
                 System.err.println("Your current Balance: "+this.bal);
                 break;
         }
-        return;             
+        return this.bal;             
     }
 }
 public class MainATM
