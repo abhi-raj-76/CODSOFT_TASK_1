@@ -105,7 +105,8 @@ public class MainATM
                 System.out.println("        4: Change PIN");
                 System.out.println("        5: Exit");
                 int choice = sc.nextInt();
-                if(choice!= 5 && choice!= 4){u1.connectBank(choice,sc);}
+                if(choice > 5){System.out.println("Incorrect Choice, Try again!!!");}
+                else if(choice!= 5 && choice!= 4){u1.connectBank(choice,sc);}
                 else if(choice == 4)
                 {
                     System.out.print("Enter your new PIN: ");
