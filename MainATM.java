@@ -2,10 +2,21 @@ import java.util.Scanner;
 
 class Bank
 {
+    private double amount;
+    public Bank()
+    {
+        this.amount = 5000;
+    }
+    public void Withdraw()
+    {
 
+    }
+    public void Deposit(){}
+    public void Balance(){}
 }
 class User
 {
+
     private int pin;
     private String name;
 
@@ -23,13 +34,29 @@ class User
     }
     public String getName()
     {return name;}
-
+    public void connectBank(int choice,Scanner sc)
+    {
+        Bank b1 = new Bank();
+        switch (choice) 
+        {
+            case 1:
+                System.err.println("Enter your amount: ");
+                b1.Withdraw();   
+                break;
+            case 2:
+                b1.Deposit();
+                break;
+            case 3:
+                b1.Balance();
+                break;
+        }
+                    
+    }
 }
 public class MainATM
 {
     public static void main(String[] args)
     {
-
         final int pin;
 
         Scanner sc = new Scanner(System.in);
@@ -49,6 +76,13 @@ public class MainATM
                 System.out.println("3: Balance");
                 System.out.println("4: Change PIN");
                 System.out.println("5: Exit");
+                int choice = sc.nextInt();
+                if(choice!= 5){u1.connectBank(choice,sc);}
+                else if(choice == 4)
+                {
+
+                }
+                else{System.exit(-1);}
             }
         }
         sc.close();
